@@ -14,10 +14,12 @@ public class Guest implements LoginAsGuest {
         String password = scanner.nextLine();
 
     }
-    public void chooseProducts(){
+
+    public void chooseProducts() {
 
     }
-    public void confirmOrder(){
+
+    public void confirmOrder() {
 
     }
     /// треба перевірку чи є такий юзер в базі даних, якщо нема то опція: повторити спробу або зареєструватись

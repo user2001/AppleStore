@@ -2,7 +2,7 @@ package com.company;
 
 import java.util.Scanner;
 
-public class LoginMenu  {
+public class LoginMenu {
 //    Scanner scanner = new Scanner(System.in);
 //
 //    public void helloMenu() {

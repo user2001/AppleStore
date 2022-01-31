@@ -1,47 +1,41 @@
 package com.company;
 
+import com.company.DB.AdminRepository;
+import com.company.DB.ProductRepository;
+import com.company.DB.UserRepository;
+import com.company.Entity.Product;
+import com.company.Entity.User;
+
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
 
 public class Main {
-    private static  final String url = "jdbc:h2:D:\\IDEAProjects\\DBTest\\db";
-    private static  final String login = "Nikos";
-    private static  final String password = "123455";
 
 
-    private static Connection con;
-    private static Statement stm;
-    private static PreparedStatement pstm;
-    private static ResultSet rs;
+    public static void main(String[] args) throws SQLException {
 
-    public static void main(String[] args) throws SQLException{
+        UserRepository userRepository = new UserRepository();
 
-        String select = "SELECT ID,LOGIN,PASSWORD,STATUS FROM Users";
-        List<User> users = new ArrayList<>();
-//        Class.forName("org.h2.Driver");
-//        Connection con = DriverManager.getConnection(url);
-        try(Connection con = DriverManager.getConnection(url,login,password)) {
-            try (PreparedStatement pst = con.prepareStatement(select)) {
-                try (ResultSet resSet = pst.executeQuery()) {
-
-
-                    while (resSet.next()) {
-                        User user = new User(
-                                resSet.getInt("ID"),
-                                resSet.getString("LOGIN"),
-                                resSet.getString("PASSWORD"),
-                                resSet.getString("STATUS"));
-                        //users.add(user);
-                        System.out.println(user);
-                    }
-                }
-            }
-        }
-        //System.out.println(users);
+        User user = new User("Yaroslav","5894","Unblock"," ");
+        userRepository.singUpUser(user);
+        System.out.println("користувачі:");
+        userRepository.select();
+        ProductRepository productRepository = new ProductRepository();
+        System.out.println("продукти:");
+        productRepository.select();
+        AdminRepository adminRepository = new AdminRepository();
+        System.out.println("адміни");
+        adminRepository.select();
+        List<Product> productList = new ArrayList<>();
+        System.out.println("список телефонів на проміжку 6000 - 27000");
+        productList = productRepository.getProductsInRange(6000,27000);
+        System.out.println(productList);
     }
+
+}
 //    public static void main(String[] args) throws Exception {
 //        LoginMenu loginMenu = new LoginMenu();
 //        loginMenu.choiceRole();
 //    }
-}
+
