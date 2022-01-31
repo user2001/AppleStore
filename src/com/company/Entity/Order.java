@@ -1,26 +1,28 @@
 package com.company.Entity;
 
-import java.util.Arrays;
+import java.sql.Array;
+import java.sql.SQLException;
+import java.util.List;
 
 public class Order {
     private int id;
     private int userID;
-    private int[] productsId;
+    private List<Integer> productsId;
     private int fullPrice;
 
     public Order() {
     }
 
-    public Order(int userID, int[] productsId, int fullPrice) {
+    public Order(int userID, List<Integer> productsId, int fullPrice) {
         this.userID = userID;
         this.productsId = productsId;
         this.fullPrice = fullPrice;
     }
 
-    public Order(int id, int userID, int[] productsId, int fullPrice) {
+    public Order(int id, int userID, Array productsId, int fullPrice) throws SQLException {
         this.id = id;
         this.userID = userID;
-        this.productsId = productsId;
+        this.productsId = (List<Integer>) productsId.getResultSet();
         this.fullPrice = fullPrice;
     }
 
@@ -40,11 +42,11 @@ public class Order {
         this.userID = userID;
     }
 
-    public int[] getProductsId() {
+    public List<Integer> getProductsId() {
         return productsId;
     }
 
-    public void setProductsId(int[] productsId) {
+    public void setProductsId(List<Integer> productsId) {
         this.productsId = productsId;
     }
 
@@ -61,7 +63,7 @@ public class Order {
         return "Order{" +
                 "id=" + id +
                 ", userID=" + userID +
-                ", productsId=" + Arrays.toString(productsId) +
+                ", productsId=" + productsId +
                 ", fullPrice=" + fullPrice +
                 '}';
     }
