@@ -1,6 +1,6 @@
 package com.company;
 
-public interface Register extends LoginAsGuest {
+public interface Register {
     void putPersonalData();
 
 }
