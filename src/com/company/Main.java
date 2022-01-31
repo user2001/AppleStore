@@ -20,8 +20,11 @@ public class Main {
 //        loginMenu.choiceRole();
         UserRepository userRepository = new UserRepository();
 
-        User user = new User("Yaroslav","5894","Unblock"," ");
-        userRepository.singUpUser(user);
+
+
+
+
+
         System.out.println("користувачі:");
         userRepository.select();
         ProductRepository productRepository = new ProductRepository();
@@ -40,8 +43,8 @@ public class Main {
         orderList = orderRepository.get();
         List<Integer> list = new ArrayList<>();
         Collections.addAll(list,1,2,3);
-        orderRepository.makeOrder(new Order(2, list,12000));
-        System.out.println(orderList);
+//        orderRepository.makeOrder(new Order(2, list,12000));
+//        System.out.println(orderList);
     }
 
 }
