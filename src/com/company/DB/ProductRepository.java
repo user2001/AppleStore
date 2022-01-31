@@ -23,7 +23,7 @@ public class ProductRepository extends DBConnection {
         }
     }
 
-    public List<Product> select() {
+    public List<Product> get() {
         String select = "SELECT  ID,NAME,MODEL,PRICE FROM PRODUCT";
         List<Product> products = new ArrayList<>();
         try (Connection con = DriverManager.getConnection(URL, LOGIN, PASSWORD)) {

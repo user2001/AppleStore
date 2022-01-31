@@ -27,11 +27,28 @@ public class UserRepository extends DBConnection {
         }
     }
 
+    public boolean getUser(String login,String password) throws SQLException {
+        String select = "SELECT * FROM User WHERE LOGIN=? and PASSWORD=?";
+        boolean counter = false;
+        try (Connection con = DriverManager.getConnection(URL,LOGIN,PASSWORD)) {
+            try (PreparedStatement pst = con.prepareStatement(select)) {
+                pst.setString(1, login);
+                pst.setString(2, password);
+                try (ResultSet resSet = pst.executeQuery()) {
+                    if(resSet.next()){
+                        counter = true;
+                    }
+                }
+                return  counter;
+            }
+        }
+    }
+
     public boolean findUser(String login) throws SQLException {
         String select = "SELECT COUNT(*) FROM USER WHERE LOGIN=?";
         boolean counter = false;
-        try (Connection con = DriverManager.getConnection(URL, LOGIN, PASSWORD);) {
-            try (PreparedStatement pst = con.prepareStatement(select);) {
+        try (Connection con = DriverManager.getConnection(URL, LOGIN, PASSWORD)) {
+            try (PreparedStatement pst = con.prepareStatement(select)) {
                 pst.setString(1, login);
                 try (ResultSet resSet = pst.executeQuery()) {
                     if (resSet.next()) {
