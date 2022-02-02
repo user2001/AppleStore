@@ -1,12 +1,14 @@
 package com.company;
 
 import com.company.DB.AdminRepository;
+import com.company.DB.OrderRepository;
 import com.company.DB.ProductRepository;
 import com.company.DB.UserRepository;
 import com.company.Entity.Admin;
 import com.company.Entity.Order;
 import com.company.Entity.Product;
 
+import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
@@ -14,7 +16,8 @@ import java.util.stream.Collectors;
 
 public class Guest implements LoginAsGuest {
     Scanner scanner = new Scanner(System.in);
-
+    List<Product> choosenProducts;
+    ArrayList<List<Product>> cart = new ArrayList<>();
 
     public void helloMenu() {
         System.out.println("Products menu-'1'");
@@ -23,7 +26,7 @@ public class Guest implements LoginAsGuest {
         System.out.println("Exit-'0'");
     }
 
-    public void choiceRole() {
+    public void choiceRole() throws SQLException {
         while (true) {
             helloMenu();
             int chooseNumber = scanner.nextInt();
@@ -35,7 +38,7 @@ public class Guest implements LoginAsGuest {
                     chooseProduct();
                     break;
                 case 3:
-
+                    myCart();
                     // id замовлень. меню адміна. переглянутию підтвердити. написати
                     break;
                 case 0:
@@ -79,14 +82,20 @@ public class Guest implements LoginAsGuest {
         productList = productRepository.get();
         System.out.println("Вкажіть id товару");
         int needProduct = scanner.nextInt();
-        var choosenProducts = productList.stream()
+        choosenProducts = productList.stream()
                 .filter(product -> product.getId() == needProduct)
-                .collect(Collectors.toList());
+               .collect(Collectors.toList());
         System.out.println("Ви додали до вашої корзини: " + choosenProducts);
+        cart.add(choosenProducts);
+
+
     }
 
-
-    public void myCart() {
+    public void myCart() throws SQLException {
+        //OrderRepository orderRepository=new OrderRepository(); поки не працює
+      //  orderRepository.makeOrder( new Order(choosenProducts));
+        System.out.println("Ваше замовлення"+cart);
+        System.out.println("Сума замовлення:");
 
 
     }

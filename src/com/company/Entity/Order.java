@@ -7,13 +7,17 @@ import java.util.List;
 public class Order {
     private int id;
     private int userID;
-    private List<Integer> productsId;
+    private List<Product> productsId;
     private int fullPrice;
 
     public Order() {
     }
 
-    public Order(int userID, List<Integer> productsId, int fullPrice) {
+    public Order(List<Product> productsId) {
+        this.productsId = productsId;
+    }
+
+    public Order(int userID, List<Product> productsId, int fullPrice) {
         this.userID = userID;
         this.productsId = productsId;
         this.fullPrice = fullPrice;
@@ -22,7 +26,7 @@ public class Order {
     public Order(int id, int userID, Array productsId, int fullPrice) throws SQLException {
         this.id = id;
         this.userID = userID;
-        this.productsId = (List<Integer>) productsId.getResultSet();
+        this.productsId = (List<Product>) productsId.getResultSet();
         this.fullPrice = fullPrice;
     }
 
@@ -42,11 +46,11 @@ public class Order {
         this.userID = userID;
     }
 
-    public List<Integer> getProductsId() {
+    public List<Product> getProductsId() {
         return productsId;
     }
 
-    public void setProductsId(List<Integer> productsId) {
+    public void setProductsId(List<Product> productsId) {
         this.productsId = productsId;
     }
 
