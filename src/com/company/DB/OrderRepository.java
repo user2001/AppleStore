@@ -1,12 +1,9 @@
 package com.company.DB;
 
 import com.company.Entity.Order;
-import com.company.Entity.Product;
-import com.company.Entity.User;
 
 import java.sql.*;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 
 public class OrderRepository extends DBConnection {
@@ -15,7 +12,7 @@ public class OrderRepository extends DBConnection {
         try (Connection con = DriverManager.getConnection(URL, LOGIN, PASSWORD)) {
             try (PreparedStatement pst = con.prepareStatement(insert)) {
                 pst.setInt(1, order.getUserID());
-                pst.setArray(2, (Array) order.getProductsId());
+                pst.setString(2, order.getProductsID());
                 pst.setInt(3, order.getFullPrice());
                 pst.execute();
             }
@@ -35,7 +32,7 @@ public class OrderRepository extends DBConnection {
                         Order order = new Order(
                                 resSet.getInt("ID"),
                                 resSet.getInt("USER_ID"),
-                                resSet.getArray("PRODUCTS_ID"),
+                                resSet.getString("PRODUCTS_ID"),
                                 resSet.getInt("TOTAL_PRICE"));
                         orders.add(order);
                         System.out.println(order);

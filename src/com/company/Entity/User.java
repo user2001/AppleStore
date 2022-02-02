@@ -9,6 +9,9 @@ public class User {
 
     public User() {
     }
+
+
+
     public User(int id, String login, String password, String status) {
         this.id = id;
         this.login = login;

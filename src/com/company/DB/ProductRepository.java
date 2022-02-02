@@ -38,7 +38,7 @@ public class ProductRepository extends DBConnection {
                                 resSet.getString("MODEL"),
                                 resSet.getInt("PRICE"));
                         products.add(product);
-                        System.out.println(product);
+
                     }
                 }
             }

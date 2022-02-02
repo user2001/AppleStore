@@ -1,46 +1,53 @@
 package com.company;
 
 import com.company.DB.AdminRepository;
+import com.company.DB.OrderRepository;
 import com.company.DB.ProductRepository;
 import com.company.DB.UserRepository;
 import com.company.Entity.Admin;
+import com.company.Entity.Order;
 import com.company.Entity.Product;
+import com.company.Entity.User;
 
+import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.List;
 import java.util.Scanner;
+import java.util.stream.Collectors;
 
 public class Guest implements LoginAsGuest {
-
     Scanner scanner = new Scanner(System.in);
-
+    List<Product> choosenProducts = new ArrayList<>();
+    Product choosenProduct;
+    List<Product> cart = new ArrayList<>();
+    User user = new User();
 
     public void helloMenu() {
         System.out.println("Products menu-'1'");
         System.out.println("My orders menu-'2'");
-        System.out.println("Admins list-'3'");
+        System.out.println("Корзина-'3'");
         System.out.println("Exit-'0'");
     }
 
-
-    public void choiceRole(){
-        Guest user = new Guest();
+    public void choiceRole() throws SQLException {
         while (true) {
             helloMenu();
             int chooseNumber = scanner.nextInt();
             switch (chooseNumber) {
-                case 1 :
-                        chooseProducts();
+                case 1:
+                    showProducts();
                     break;
-                case 2 :
-
+                case 2:
+                    chooseProduct();
                     break;
-                case 3 :
-                    showAdmins();
+                case 3:
+                    myCart();
+                    // id замовлень. меню адміна. переглянутию підтвердити. написати
                     break;
-                case 0 :
+                case 0:
                     System.exit(0);
-                default :
+                default:
                     System.out.println("Error, wrong answer");
                     helloMenu();
             }
@@ -55,7 +62,7 @@ public class Guest implements LoginAsGuest {
         String password = scanner.nextLine();
         UserRepository userRepository = new UserRepository();
         try {
-            if (userRepository.getUser(login, password)) {
+            if ((user = userRepository.getUser(login, password)) != null) {
                 System.out.println("Успішний вхід");
                 choiceRole();
             } else {
@@ -66,23 +73,69 @@ public class Guest implements LoginAsGuest {
         }
     }
 
-    public void chooseProducts() {
+    public void showProducts() {
         ProductRepository productRepository = new ProductRepository();
         List<Product> productList;
         productList = productRepository.get();
         System.out.println(productList);
     }
 
-    public void confirmOrder() {
+    public void chooseProduct() {
+        ProductRepository productRepository = new ProductRepository();
+        List<Product> productList;
+        productList = productRepository.get();
+        Comparator<Product> comparator = Comparator.comparing(obj -> obj.getId());
+        if (!choosenProducts.isEmpty()) {
+            productList = productList.stream().filter(i1 -> choosenProducts.stream().allMatch(i2 -> i1.getId() != i2.getId())).collect(Collectors.toList());
+        }
+        if (productList.isEmpty()) {
+            System.out.println("Товари закінчилися");
+            return;
+        }
+        System.out.println(productList);
+        System.out.println("Вкажіть id товару");
+        int needProduct = scanner.nextInt();
+        choosenProduct = productList.stream()
+                .filter(product -> product.getId() == needProduct).findFirst().get();
+        System.out.println(choosenProduct);
+        if (choosenProduct != null) {
+            choosenProducts.add(choosenProduct);
+            System.out.println("Ви додали до вашої корзини: " + choosenProduct);
+            cart.add(choosenProduct);
+        }
+        cart.sort(comparator);
 
     }
 
-    public void showAdmins(){
+    public void myCart() throws SQLException {
+        System.out.println("Ваше замовлення" + cart);
+        System.out.println("Підтвердити замовлення? 1 - так, 0 - ні ");
+        int check;
+        check = scanner.nextInt();
+        if (check == 0) {
+            return;
+        }
+        OrderRepository orderRepository = new OrderRepository(); //поки не працює
+        String productsId = "";
+        int fullPrice = 0;
+        for (Product p : choosenProducts) {
+            productsId += p.getId() + ", ";
+        }
+        productsId = productsId.strip();
+        productsId = productsId.substring(0, productsId.length() - 1);
+        for (Product p : choosenProducts) {
+            fullPrice += p.getPrice();
+        }
+        orderRepository.makeOrder(new Order(user.getId(), productsId, fullPrice));
+        System.out.println("Замовлення додано");
+
+    }
+
+    public void showAdmins() {
         AdminRepository adminRepository = new AdminRepository();
         List<Admin> adminList;
         adminList = adminRepository.get();
         System.out.println(adminList);
-
     }
     /// треба перевірку чи є такий юзер в базі даних, якщо нема то опція: повторити спробу або зареєструватись
 }
