@@ -1,16 +1,6 @@
 package com.company;
 
-import com.company.DB.AdminRepository;
-import com.company.DB.OrderRepository;
-import com.company.DB.ProductRepository;
-import com.company.DB.UserRepository;
-import com.company.Entity.Order;
-import com.company.Entity.Product;
-import com.company.Entity.User;
-
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.List;
+import com.company.Menu.LoginMenu;
 
 public class Main {
 

@@ -1,13 +1,13 @@
 package com.company.DB;
 
-import com.company.Entity.Order;
+import com.company.Entity.OrderEntity;
 
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
 
 public class OrderRepository extends DBConnection {
-    public void makeOrder(Order order) throws SQLException {
+    public void makeOrder(OrderEntity order) throws SQLException {
         String insert = "INSERT INTO ORDERS (user_id, products_id, total_price) VALUES(?,?,?)";
         try (Connection con = DriverManager.getConnection(URL, LOGIN, PASSWORD)) {
             try (PreparedStatement pst = con.prepareStatement(insert)) {
@@ -20,16 +20,16 @@ public class OrderRepository extends DBConnection {
             throwables.printStackTrace();
         }
     }
-    public List<Order> get() {
+    public List<OrderEntity> get() {
         String select = "SELECT  ID, USER_ID, PRODUCTS_ID, TOTAL_PRICE FROM ORDERS";
-        List<Order> orders = new ArrayList<>();
+        List<OrderEntity> orders = new ArrayList<>();
         try (Connection con = DriverManager.getConnection(URL, LOGIN, PASSWORD)) {
             try (PreparedStatement pst = con.prepareStatement(select)) {
                 try (ResultSet resSet = pst.executeQuery()) {
 
 
                     while (resSet.next()) {
-                        Order order = new Order(
+                        OrderEntity order = new OrderEntity(
                                 resSet.getInt("ID"),
                                 resSet.getInt("USER_ID"),
                                 resSet.getString("PRODUCTS_ID"),

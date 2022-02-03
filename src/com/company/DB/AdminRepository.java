@@ -1,7 +1,6 @@
 package com.company.DB;
 
-import com.company.Entity.Admin;
-import com.company.Entity.Product;
+import com.company.Entity.AdminEntity;
 
 import java.sql.*;
 import java.util.ArrayList;
@@ -14,16 +13,16 @@ public class AdminRepository extends DBConnection {
 
     }
 
-    public List<Admin> get() {
+    public List<AdminEntity> get() {
         String select = "SELECT  ID,NAME,SURNAME,LOGIN,PASSWORD FROM ADMIN";
-        List<Admin> admins = new ArrayList<>();
+        List<AdminEntity> admins = new ArrayList<>();
         try (Connection con = DriverManager.getConnection(URL, LOGIN, PASSWORD)) {
             try (PreparedStatement pst = con.prepareStatement(select)) {
                 try (ResultSet resSet = pst.executeQuery()) {
 
 
                     while (resSet.next()) {
-                        Admin admin = new Admin(
+                        AdminEntity admin = new AdminEntity(
                                 resSet.getInt("ID"),
                                 resSet.getString("NAME"),
                                 resSet.getString("SURNAME"),
@@ -38,6 +37,46 @@ public class AdminRepository extends DBConnection {
             throwables.printStackTrace();
         }
         return admins;
+    }
+
+    public AdminEntity getAdmin(String login, String password) throws SQLException {
+        String select = "SELECT * FROM ADMIN WHERE LOGIN=? and PASSWORD=?";
+        boolean counter = false;
+        AdminEntity admin = null;
+        try (Connection con = DriverManager.getConnection(URL, LOGIN, PASSWORD)) {
+            try (PreparedStatement pst = con.prepareStatement(select)) {
+                pst.setString(1, login);
+                pst.setString(2, password);
+                try (ResultSet resSet = pst.executeQuery()) {
+                    if (resSet.next()) {
+                        admin = new AdminEntity(resSet.getInt("ID"),
+                                resSet.getString("NAME"),
+                                resSet.getString("SURNAME"),
+                                resSet.getString("LOGIN"),
+                                resSet.getString("PASSWORD"));
+
+                    }
+                }
+                return admin;
+            }
+        }
+    }
+
+    public boolean findAdmin(String login) throws SQLException {
+        String select = "SELECT * FROM ADMIN WHERE LOGIN=?";
+        boolean counter = false;
+        try (Connection con = DriverManager.getConnection(URL, LOGIN, PASSWORD)) {
+            try (PreparedStatement pst = con.prepareStatement(select)) {
+                pst.setString(1, login);
+                try (ResultSet resSet = pst.executeQuery()) {
+                    if (resSet.next()) {
+                        counter = true;
+
+                    }
+                }
+
+            }
+        }return counter;
     }
 
 

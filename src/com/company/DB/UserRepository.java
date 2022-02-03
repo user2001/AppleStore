@@ -1,6 +1,6 @@
 package com.company.DB;
 
-import com.company.Entity.User;
+import com.company.Entity.UserEntity;
 
 import java.sql.*;
 import java.util.ArrayList;
@@ -8,7 +8,7 @@ import java.util.List;
 
 public class UserRepository extends DBConnection {
 
-    public void singUpUser(User user) throws SQLException {
+    public void singUpUser(UserEntity user) throws SQLException {
         if(findUser(user.getLogin())){
             System.out.println("Такий користувач вже існує");
             return;
@@ -27,17 +27,17 @@ public class UserRepository extends DBConnection {
         }
     }
 
-    public User getUser(String login, String password) throws SQLException {
+    public UserEntity getUser(String login, String password) throws SQLException {
         String select = "SELECT * FROM User WHERE LOGIN=? and PASSWORD=?";
         boolean counter = false;
-        User user = null;
+        UserEntity user = null;
         try (Connection con = DriverManager.getConnection(URL, LOGIN, PASSWORD)) {
             try (PreparedStatement pst = con.prepareStatement(select)) {
                 pst.setString(1, login);
                 pst.setString(2, password);
                 try (ResultSet resSet = pst.executeQuery()) {
                     if (resSet.next()) {
-                        user = new User(resSet.getInt("ID"),
+                        user = new UserEntity(resSet.getInt("ID"),
                                 resSet.getString("LOGIN"),
                                 resSet.getString("PASSWORD"),
                                 resSet.getString("STATUS"),
@@ -68,16 +68,16 @@ public class UserRepository extends DBConnection {
     }
 
 
-    public List<User> select() {
+    public List<UserEntity> get() {
         String select = "SELECT  ID,LOGIN,PASSWORD,STATUS,MESSAGE FROM USER";
-        List<User> users = new ArrayList<>();
+        List<UserEntity> users = new ArrayList<>();
         try (Connection con = DriverManager.getConnection(URL, LOGIN, PASSWORD)) {
             try (PreparedStatement pst = con.prepareStatement(select)) {
                 try (ResultSet resSet = pst.executeQuery()) {
 
 
                     while (resSet.next()) {
-                        User user = new User(
+                        UserEntity user = new UserEntity(
                                 resSet.getInt("ID"),
                                 resSet.getString("LOGIN"),
                                 resSet.getString("PASSWORD"),
@@ -96,7 +96,7 @@ public class UserRepository extends DBConnection {
 
     public void update(String status,int id) {
         String update = "UPDATE USER SET STATUS = ? where ID = ?";
-        List<User> users = new ArrayList<>();
+        List<UserEntity> users = new ArrayList<>();
         try (Connection con = DriverManager.getConnection(URL, LOGIN, PASSWORD)) {
             try (PreparedStatement pst = con.prepareStatement(update)) {
                     pst.setString(1,status);
