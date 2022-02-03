@@ -26,12 +26,13 @@ public class GuestMenu implements LoginInterface {
 
     public void helloMenu() {
         System.out.println("Products menu-'1'");
-        System.out.println("My orders menu-'2'");
-        System.out.println("Корзина-'3'");
+        System.out.println("Search products in range-'2'");
+        System.out.println("My orders menu-'3'");
+        System.out.println("Корзина-'4'");
         System.out.println("Exit-'0'");
     }
 
-    public void choiceRole(){
+    public void choiceRole() throws SQLException {
         while (true) {
             helloMenu();
             int chooseNumber = scanner.nextInt();
@@ -40,9 +41,12 @@ public class GuestMenu implements LoginInterface {
                     showProducts();
                     break;
                 case 2:
-                    chooseProduct();
+                    showProductsInRange();
                     break;
                 case 3:
+                    chooseProduct();
+                    break;
+                case 4:
                     myCart();
                     // id замовлень. меню адміна. переглянутию підтвердити. написати
                     break;
@@ -81,6 +85,18 @@ public class GuestMenu implements LoginInterface {
         System.out.println(productList);
     }
 
+    public void showProductsInRange() throws SQLException {
+        System.out.println("Введіть мінімальну ціну");
+        int min = scanner.nextInt();
+        System.out.println("Введіть максимальну ціну");
+        int max = scanner.nextInt();
+        scanner.nextLine();
+        ProductRepository productRepository = new ProductRepository();
+        List<ProductEntity> productList;
+        productList = productRepository.getProductsInRange(min,max);
+        System.out.println(productList);
+    }
+
     public void chooseProduct() {
         ProductRepository productRepository = new ProductRepository();
         List<ProductEntity> productList;
@@ -103,8 +119,11 @@ public class GuestMenu implements LoginInterface {
             choosenProducts.add(choosenProduct);
             System.out.println("Ви додали до вашої корзини: " + choosenProduct);
             cart.add(choosenProduct);
+            cart.sort(comparator);
         }
-        cart.sort(comparator);
+        else{
+            System.out.println("Некоректно введений id продутку");
+        }
 
     }
 
