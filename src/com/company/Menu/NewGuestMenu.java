@@ -2,13 +2,12 @@ package com.company.Menu;
 
 import com.company.DB.UserRepository;
 import com.company.Entity.UserEntity;
-import com.company.Menu.GuestMenu;
-import com.company.Register;
+import com.company.RegisterInterface;
 
 import java.sql.SQLException;
 import java.util.Scanner;
 
-public class NewGuestMenu extends GuestMenu implements Register {
+public class NewGuestMenu extends GuestMenu implements RegisterInterface {
     Scanner scanner = new Scanner(System.in);
 
     @Override
@@ -17,7 +16,7 @@ public class NewGuestMenu extends GuestMenu implements Register {
         String login = scanner.next();
         System.out.println("Password");
         String password = scanner.next();
-        UserEntity user = new UserEntity(login,password,"Unblock","");
+        UserEntity user = new UserEntity(login, password, "Unblock", "");
         UserRepository userRepository = new UserRepository();
         try {
             userRepository.singUpUser(user);

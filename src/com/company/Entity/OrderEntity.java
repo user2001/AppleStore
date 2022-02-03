@@ -3,8 +3,9 @@ package com.company.Entity;
 public class OrderEntity {
     private int id;
     private int userID;
-    String productsID;
+    private String productsID;
     private int fullPrice;
+    private String status;
 
     public OrderEntity() {
     }
@@ -13,17 +14,19 @@ public class OrderEntity {
         this.productsID = productsID;
     }
 
-    public OrderEntity(int userID, String productsID, int fullPrice) {
+    public OrderEntity(int userID, String productsID, int fullPrice, String status) {
         this.userID = userID;
         this.productsID = productsID;
         this.fullPrice = fullPrice;
+        this.status = status;
     }
 
-    public OrderEntity(int id, int userID, String productsID, int fullPrice) {
+    public OrderEntity(int id, int userID, String productsID, int fullPrice, String status) {
         this.id = id;
         this.userID = userID;
         this.productsID = productsID;
         this.fullPrice = fullPrice;
+        this.status = status;
     }
 
     public int getId() {
@@ -59,13 +62,22 @@ public class OrderEntity {
         this.fullPrice = fullPrice;
     }
 
+    public String getStatus() {
+        return status;
+    }
+
+    public void setStatus(String status) {
+        this.status = status;
+    }
+
     @Override
     public String toString() {
-        return "Order{" +
+        return "OrderEntity{" +
                 "id=" + id +
                 ", userID=" + userID +
-                ", productsID=" + productsID +
+                ", productsID='" + productsID + '\'' +
                 ", fullPrice=" + fullPrice +
+                ", status='" + status + '\'' +
                 '}';
     }
 }

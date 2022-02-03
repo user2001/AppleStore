@@ -7,7 +7,7 @@ import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
 
-public class ProductRepository extends DBConnection {
+public class ProductRepository extends DBConnection implements DB {
 
 
     public void add(ProductEntity product) {
@@ -30,8 +30,6 @@ public class ProductRepository extends DBConnection {
         try (Connection con = DriverManager.getConnection(URL, LOGIN, PASSWORD)) {
             try (PreparedStatement pst = con.prepareStatement(select)) {
                 try (ResultSet resSet = pst.executeQuery()) {
-
-
                     while (resSet.next()) {
                         ProductEntity product = new ProductEntity(
                                 resSet.getInt("ID"),
@@ -39,7 +37,6 @@ public class ProductRepository extends DBConnection {
                                 resSet.getString("MODEL"),
                                 resSet.getInt("PRICE"));
                         products.add(product);
-
                     }
                 }
             }
@@ -80,7 +77,6 @@ public class ProductRepository extends DBConnection {
                 pst.setInt(1,price);
                 pst.setInt(2, id);
                 pst.execute();
-
             }
         } catch (SQLException e) {
             e.printStackTrace();
@@ -96,13 +92,11 @@ public class ProductRepository extends DBConnection {
                 pst.setString(1,model);
                 pst.setInt(2, id);
                 pst.execute();
-
             }
         } catch (SQLException e) {
             e.printStackTrace();
         }
     }
-
 
     public void delete() {
 

@@ -31,7 +31,7 @@ public class GuestMenu implements LoginInterface {
         System.out.println("Exit-'0'");
     }
 
-    public void choiceRole() throws SQLException {
+    public void choiceRole(){
         while (true) {
             helloMenu();
             int chooseNumber = scanner.nextInt();
@@ -85,7 +85,7 @@ public class GuestMenu implements LoginInterface {
         ProductRepository productRepository = new ProductRepository();
         List<ProductEntity> productList;
         productList = productRepository.get();
-        Comparator<ProductEntity> comparator = Comparator.comparing(obj -> obj.getId());
+        Comparator<ProductEntity> comparator = Comparator.comparing(ProductEntity::getId);
         if (!choosenProducts.isEmpty()) {
             productList = productList.stream().filter(i1 -> choosenProducts.stream().allMatch(i2 -> i1.getId() != i2.getId())).collect(Collectors.toList());
         }
@@ -97,9 +97,9 @@ public class GuestMenu implements LoginInterface {
         System.out.println("Вкажіть id товару");
         int needProduct = scanner.nextInt();
         choosenProduct = productList.stream()
-                .filter(product -> product.getId() == needProduct).findFirst().get();
+                .filter(product -> product.getId() == needProduct).findFirst().orElse(null);
         System.out.println(choosenProduct);
-        if (choosenProduct != null) {
+        if (!choosenProduct.equals(null)) {
             choosenProducts.add(choosenProduct);
             System.out.println("Ви додали до вашої корзини: " + choosenProduct);
             cart.add(choosenProduct);
@@ -108,7 +108,7 @@ public class GuestMenu implements LoginInterface {
 
     }
 
-    public void myCart() throws SQLException {
+    public void myCart() {
         System.out.println("Ваше замовлення" + cart);
         System.out.println("Підтвердити замовлення? 1 - так, 0 - ні ");
         int check;
@@ -127,7 +127,7 @@ public class GuestMenu implements LoginInterface {
         for (ProductEntity p : choosenProducts) {
             fullPrice += p.getPrice();
         }
-        orderRepository.makeOrder(new OrderEntity(user.getId(), productsId, fullPrice));
+        orderRepository.makeOrder(new OrderEntity(user.getId(), productsId, fullPrice, "Uncomfirmed"));
         System.out.println("Замовлення додано");
 
     }

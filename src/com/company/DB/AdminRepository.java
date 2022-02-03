@@ -6,7 +6,7 @@ import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
 
-public class AdminRepository extends DBConnection {
+public class AdminRepository extends DBConnection implements DB {
 
 
     public void insert() {

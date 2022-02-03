@@ -18,29 +18,23 @@ public class LoginMenu {
             helloMenu();
             int chooseNumber = scanner.nextInt();
             switch (chooseNumber) {
-                case 1 :
-                    GuestMenu user=new GuestMenu();
+                case 1:
+                    GuestMenu user = new GuestMenu();
                     user.putLoginPassword();
-//                   user.confirmOrder();
                     break;
-                case 2 :
-                    NewGuestMenu newUser =new NewGuestMenu();
+                case 2:
+                    NewGuestMenu newUser = new NewGuestMenu();
                     newUser.putPersonalData();
-//                    newUser.chooseProducts();
-//                    newUser.confirmOrder();
                     break;
-// register
-
-                case 3 :
-                    // admin
+                case 3:
+                    AdminMenu adminMenu = new AdminMenu();
+                    adminMenu.putLoginPassword();
                     break;
-                case 0 :
+                case 0:
                     System.exit(0);
-
-                default :
+                default:
                     System.out.println("Error, wrong answer");
                     helloMenu();
-
             }
         }
     }

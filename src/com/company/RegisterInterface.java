@@ -1,6 +1,6 @@
 package com.company;
 
-public interface Register {
+public interface RegisterInterface {
     void putPersonalData();
 
 }

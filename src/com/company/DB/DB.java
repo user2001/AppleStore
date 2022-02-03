@@ -1,15 +1,11 @@
 package com.company.DB;
 
+import java.util.List;
+
 public interface DB {
 
 
-    default void insert() {
-
-    }
-
-    default void select() {
-
-    }
+    List<?> get();
 
     default void update() {
 

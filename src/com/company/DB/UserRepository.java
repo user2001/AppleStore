@@ -6,10 +6,10 @@ import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
 
-public class UserRepository extends DBConnection {
+public class UserRepository extends DBConnection implements DB {
 
     public void singUpUser(UserEntity user) throws SQLException {
-        if(findUser(user.getLogin())){
+        if (findUser(user.getLogin())) {
             System.out.println("Такий користувач вже існує");
             return;
         }
@@ -42,7 +42,6 @@ public class UserRepository extends DBConnection {
                                 resSet.getString("PASSWORD"),
                                 resSet.getString("STATUS"),
                                 resSet.getString("MESSAGE"));
-
                     }
                 }
                 return user;
@@ -59,10 +58,8 @@ public class UserRepository extends DBConnection {
                 try (ResultSet resSet = pst.executeQuery()) {
                     if (resSet.next()) {
                         counter = true;
-
                     }
                 }
-
             }
         }return counter;
     }
@@ -84,7 +81,6 @@ public class UserRepository extends DBConnection {
                                 resSet.getString("STATUS"),
                                 resSet.getString("MESSAGE"));
                         users.add(user);
-                        System.out.println(user);
                     }
                 }
             }
