@@ -67,9 +67,14 @@ public class GuestMenu implements LoginInterface {
         String password = scanner.nextLine();
         UserRepository userRepository = new UserRepository();
         try {
-            if ((user = userRepository.getUser(login, password)) != null) {
-                System.out.println("Успішний вхід");
-                choiceRole();
+            if ((user = userRepository.getUser(login, password)) != null ) {
+                if(!user.getStatus().equals("Block")) {
+                    System.out.println("Успішний вхід");
+                    choiceRole();
+                }
+                else {
+                    System.out.println("Цей користувач заблокований");
+                }
             } else {
                 System.out.println("Некоректно введені дані або користувача неіснує");
             }
@@ -135,7 +140,7 @@ public class GuestMenu implements LoginInterface {
         if (check == 0) {
             return;
         }
-        OrderRepository orderRepository = new OrderRepository(); //поки не працює
+        OrderRepository orderRepository = new OrderRepository();
         String productsId = "";
         int fullPrice = 0;
         for (ProductEntity p : choosenProducts) {
