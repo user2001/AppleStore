@@ -98,7 +98,4 @@ public class ProductRepository extends DBConnection implements DB {
         }
     }
 
-    public void delete() {
-
-    }
 }

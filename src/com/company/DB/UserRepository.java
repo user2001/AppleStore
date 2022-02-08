@@ -105,15 +105,4 @@ public class UserRepository extends DBConnection implements DB {
         }
     }
 
-    public void delete(int id) {
-        String delete = "DELETE FROM USER WHERE id =? ";
-        try (Connection con = DriverManager.getConnection(URL, LOGIN, PASSWORD)) {
-            try (PreparedStatement pst = con.prepareStatement(delete)) {
-                pst.setInt(1, id);
-                pst.execute();
-            }
-        } catch (SQLException throwables) {
-            throwables.printStackTrace();
-        }
-    }
 }

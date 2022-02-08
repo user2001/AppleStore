@@ -73,13 +73,16 @@ public class AdminMenu implements LoginInterface, MenuInterface {
         UserRepository userRepository = new UserRepository();
         List<UserEntity> userEntityList = userRepository.get();
         System.out.println(userEntityList);
+        for (UserEntity u:userEntityList) {
+            System.out.println(u);
+        }
         System.out.println("Введіть id користувача та параметр: \nBlock для блокування\nUnblock  для розблокування");
         String input = scanner.nextLine();
         String[] arr = input.split(" ");
         int id = Integer.parseInt(arr[0]);
         String param = arr[1];
         var user = userEntityList.stream().filter(it -> it.getId() == id).findFirst().get();
-        if (!param.equals("Block")) {
+        if (param.equals("Block")) {
             userRepository.update(param, id);
             System.out.println("Користувач " + user.getLogin() + " заблокований");
         } else if (param.equals("Unblock")) {
@@ -94,7 +97,9 @@ public class AdminMenu implements LoginInterface, MenuInterface {
     public void OrderMenu() {
         OrderRepository orderRepository = new OrderRepository();
         List<OrderEntity> orderEntityList = orderRepository.get();
-        System.out.println(orderEntityList);
+        for (OrderEntity o:orderEntityList) {
+            System.out.println(o);
+        }
         System.out.println("Введіть id  для підтвердження замовлення або 0 для виходу");
         int id = scanner.nextInt();
         if (id == 0) {
@@ -112,7 +117,9 @@ public class AdminMenu implements LoginInterface, MenuInterface {
         scanner.nextLine();
         List<ProductEntity> productEntities = productRepository.get();
         if(choice == 1){
-            System.out.println(productEntities);
+            for (ProductEntity p:productEntities) {
+                System.out.println(p);
+            }
             System.out.println("Введіть id продукту");
             int id = scanner.nextInt();
             scanner.nextLine();

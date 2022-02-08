@@ -7,13 +7,6 @@ public class OrderEntity {
     private int fullPrice;
     private String status;
 
-    public OrderEntity() {
-    }
-
-    public OrderEntity(String productsID) {
-        this.productsID = productsID;
-    }
-
     public OrderEntity(int userID, String productsID, int fullPrice, String status) {
         this.userID = userID;
         this.productsID = productsID;
@@ -33,41 +26,20 @@ public class OrderEntity {
         return id;
     }
 
-    public void setId(int id) {
-        this.id = id;
-    }
-
     public int getUserID() {
         return userID;
-    }
-
-    public void setUserID(int userID) {
-        this.userID = userID;
     }
 
     public String getProductsID() {
         return productsID;
     }
 
-
-    public void setProductsID(String productsID) {
-        this.productsID = productsID;
-    }
-
     public int getFullPrice() {
         return fullPrice;
     }
 
-    public void setFullPrice(int fullPrice) {
-        this.fullPrice = fullPrice;
-    }
-
     public String getStatus() {
         return status;
-    }
-
-    public void setStatus(String status) {
-        this.status = status;
     }
 
     @Override

@@ -9,9 +9,6 @@ import java.util.List;
 public class AdminRepository extends DBConnection implements DB {
 
 
-    public void insert() {
-
-    }
 
     public List<AdminEntity> get() {
         String select = "SELECT  ID,NAME,SURNAME,LOGIN,PASSWORD FROM ADMIN";
@@ -79,12 +76,4 @@ public class AdminRepository extends DBConnection implements DB {
         }return counter;
     }
 
-
-    public void update() {
-
-    }
-
-    public void delete() {
-
-    }
 }

@@ -2,12 +2,13 @@ package com.company.Menu;
 
 import com.company.DB.UserRepository;
 import com.company.Entity.UserEntity;
+import com.company.LoginInterface;
 import com.company.RegisterInterface;
 
 import java.sql.SQLException;
 import java.util.Scanner;
 
-public class NewGuestMenu extends GuestMenu implements RegisterInterface {
+public class NewGuestMenu  implements RegisterInterface{
     Scanner scanner = new Scanner(System.in);
 
     @Override
@@ -27,8 +28,4 @@ public class NewGuestMenu extends GuestMenu implements RegisterInterface {
         }
     }
 
-    @Override
-    public void putLoginPassword() {
-
-    }
 }

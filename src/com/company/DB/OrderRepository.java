@@ -38,7 +38,6 @@ public class OrderRepository extends DBConnection implements DB {
                                 resSet.getInt("TOTAL_PRICE"),
                                 resSet.getString("STATUS"));
                         orders.add(order);
-                        System.out.println(order);
                     }
                 }
             }

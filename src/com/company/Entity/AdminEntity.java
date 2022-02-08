@@ -7,16 +7,6 @@ public class AdminEntity {
     private String login;
     private String password;
 
-    public AdminEntity() {
-    }
-
-    public AdminEntity(String name, String surName, String login, String password) {
-        this.name = name;
-        this.surName = surName;
-        this.login = login;
-        this.password = password;
-    }
-
     public AdminEntity(int id, String name, String surName, String login, String password) {
         this.id = id;
         this.name = name;

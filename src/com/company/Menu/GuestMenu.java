@@ -17,19 +17,19 @@ import java.util.List;
 import java.util.Scanner;
 import java.util.stream.Collectors;
 
-public class GuestMenu implements LoginInterface {
+public class GuestMenu implements LoginInterface, MenuInterface{
     Scanner scanner = new Scanner(System.in);
     List<ProductEntity> choosenProducts = new ArrayList<>();
     ProductEntity choosenProduct;
     List<ProductEntity> cart = new ArrayList<>();
-    UserEntity user = new UserEntity();
+    UserEntity user;
 
     public void helloMenu() {
         System.out.println("Products menu-'1'");
         System.out.println("Search products in range-'2'");
         System.out.println("My orders menu-'3'");
         System.out.println("Корзина-'4'");
-        System.out.println("Exit-'0'");
+        System.out.println("Main menu-'0'");
     }
 
     public void choiceRole() throws SQLException {
@@ -51,7 +51,8 @@ public class GuestMenu implements LoginInterface {
                     // id замовлень. меню адміна. переглянутию підтвердити. написати
                     break;
                 case 0:
-                    System.exit(0);
+                    LoginMenu loginMenu =new LoginMenu();
+                    loginMenu.choiceRole();
                 default:
                     System.out.println("Error, wrong answer");
                     helloMenu();
@@ -76,7 +77,7 @@ public class GuestMenu implements LoginInterface {
                     System.out.println("Цей користувач заблокований");
                 }
             } else {
-                System.out.println("Некоректно введені дані або користувача неіснує");
+                System.out.println("Некоректно введені дані або користувача неіснує ");
             }
         } catch (Exception e) {
             e.printStackTrace();
@@ -87,7 +88,9 @@ public class GuestMenu implements LoginInterface {
         ProductRepository productRepository = new ProductRepository();
         List<ProductEntity> productList;
         productList = productRepository.get();
-        System.out.println(productList);
+        for (ProductEntity p:productList) {
+            System.out.println(p);
+        }
     }
 
     public void showProductsInRange() throws SQLException {
@@ -99,7 +102,9 @@ public class GuestMenu implements LoginInterface {
         ProductRepository productRepository = new ProductRepository();
         List<ProductEntity> productList;
         productList = productRepository.getProductsInRange(min,max);
-        System.out.println(productList);
+        for (ProductEntity p:productList) {
+            System.out.println(p);
+        }
     }
 
     public void chooseProduct() {
@@ -114,7 +119,9 @@ public class GuestMenu implements LoginInterface {
             System.out.println("Товари закінчилися");
             return;
         }
-        System.out.println(productList);
+        for (ProductEntity p:productList) {
+            System.out.println(p);
+        }
         System.out.println("Вкажіть id товару");
         int needProduct = scanner.nextInt();
         choosenProduct = productList.stream()
