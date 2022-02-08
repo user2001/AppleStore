@@ -1,9 +1,9 @@
 package com.company.Menu;
 
-import com.company.DB.AdminRepository;
-import com.company.DB.OrderRepository;
-import com.company.DB.ProductRepository;
-import com.company.DB.UserRepository;
+import com.company.Dao.DBDao.AdminRepository;
+import com.company.Dao.DBDao.OrderRepository;
+import com.company.Dao.DBDao.ProductRepository;
+import com.company.Dao.DBDao.UserRepository;
 import com.company.Entity.AdminEntity;
 import com.company.Entity.OrderEntity;
 import com.company.Entity.ProductEntity;
@@ -17,19 +17,18 @@ import java.util.List;
 import java.util.Scanner;
 import java.util.stream.Collectors;
 
-public class GuestMenu implements LoginInterface, MenuInterface{
+public class GuestMenu implements LoginInterface, Menu {
     Scanner scanner = new Scanner(System.in);
     List<ProductEntity> choosenProducts = new ArrayList<>();
     ProductEntity choosenProduct;
     List<ProductEntity> cart = new ArrayList<>();
     UserEntity user;
 
+    private String[] items = {"Products menu-'1'", "Search products in range-'2'","My orders menu-'3'","Корзина-'4'","Main menu-'0'"};
+
+
     public void helloMenu() {
-        System.out.println("Products menu-'1'");
-        System.out.println("Search products in range-'2'");
-        System.out.println("My orders menu-'3'");
-        System.out.println("Корзина-'4'");
-        System.out.println("Main menu-'0'");
+       showItems(items);
     }
 
     public void choiceRole() throws SQLException {
@@ -51,8 +50,7 @@ public class GuestMenu implements LoginInterface, MenuInterface{
                     // id замовлень. меню адміна. переглянутию підтвердити. написати
                     break;
                 case 0:
-                    LoginMenu loginMenu =new LoginMenu();
-                    loginMenu.choiceRole();
+                    new LoginMenu().choiceRole();
                 default:
                     System.out.println("Error, wrong answer");
                     helloMenu();

@@ -1,12 +1,13 @@
 package com.company.DB;
 
+
 import com.company.Entity.UserEntity;
 
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
 
-public class UserRepository extends DBConnection implements DB {
+public class UserRepository extends DBConnection implements DBDao {
 
     public void singUpUser(UserEntity user) throws SQLException {
         if (findUser(user.getLogin())) {

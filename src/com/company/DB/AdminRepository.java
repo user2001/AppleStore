@@ -1,15 +1,15 @@
 package com.company.DB;
 
+
 import com.company.Entity.AdminEntity;
 
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
 
-public class AdminRepository extends DBConnection implements DB {
+public class AdminRepository extends DBConnection implements DBDao {
 
-
-
+    DBConnection dbConnection = new DBConnection();
     public List<AdminEntity> get() {
         String select = "SELECT  ID,NAME,SURNAME,LOGIN,PASSWORD FROM ADMIN";
         List<AdminEntity> admins = new ArrayList<>();

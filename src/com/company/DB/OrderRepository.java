@@ -1,13 +1,13 @@
 package com.company.DB;
 
+
 import com.company.Entity.OrderEntity;
 
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
 
-public class OrderRepository extends DBConnection implements DB {
-
+public class OrderRepository extends DBConnection implements DBDao {
     public void makeOrder(OrderEntity order) {
         String insert = "INSERT INTO ORDERS (user_id, products_id, total_price,STATUS) VALUES(?,?,?,?)";
         try (Connection con = DriverManager.getConnection(URL, LOGIN, PASSWORD)) {

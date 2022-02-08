@@ -1,5 +1,6 @@
 package com.company.DB;
 
+
 import com.company.Entity.ProductEntity;
 import com.company.Entity.UserEntity;
 
@@ -7,7 +8,7 @@ import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
 
-public class ProductRepository extends DBConnection implements DB {
+public class ProductRepository extends DBConnection implements DBDao {
 
 
     public void add(ProductEntity product) {

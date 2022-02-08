@@ -1,9 +1,9 @@
 package com.company.Menu;
 
-import com.company.DB.AdminRepository;
-import com.company.DB.OrderRepository;
-import com.company.DB.ProductRepository;
-import com.company.DB.UserRepository;
+import com.company.Dao.DBDao.AdminRepository;
+import com.company.Dao.DBDao.OrderRepository;
+import com.company.Dao.DBDao.ProductRepository;
+import com.company.Dao.DBDao.UserRepository;
 import com.company.Entity.AdminEntity;
 import com.company.Entity.OrderEntity;
 import com.company.Entity.ProductEntity;
@@ -13,16 +13,15 @@ import com.company.LoginInterface;
 import java.util.List;
 import java.util.Scanner;
 
-public class AdminMenu implements LoginInterface, MenuInterface {
+public class AdminMenu implements LoginInterface, Menu {
 
     Scanner scanner = new Scanner(System.in);
     AdminEntity admin;
 
+    private String[] items = {"Users menu-'1'", "Order menu-'2'","Products menu-'3'","Main menu-'0'"};
+
     public void helloMenu() {
-        System.out.println("Users menu-'1'");  //ніби все
-        System.out.println("Order menu-'2'"); //треба додати колонку confirm в таблицю
-        System.out.println("Products menu-'3'"); // зробити
-        System.out.println("Main menu-'0'");
+        showItems(items);
     }
 
     public void choiceRole() {
@@ -41,8 +40,7 @@ public class AdminMenu implements LoginInterface, MenuInterface {
                     ProductsMenu();
                     break;
                 case 0:
-                    LoginMenu loginMenu =new LoginMenu();
-                    loginMenu.choiceRole();
+                    new LoginMenu().choiceRole();
                 default:
                     System.out.println("Error, wrong answer");
                     helloMenu();

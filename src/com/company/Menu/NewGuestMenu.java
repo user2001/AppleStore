@@ -1,8 +1,7 @@
 package com.company.Menu;
 
-import com.company.DB.UserRepository;
+import com.company.Dao.DBDao.UserRepository;
 import com.company.Entity.UserEntity;
-import com.company.LoginInterface;
 import com.company.RegisterInterface;
 
 import java.sql.SQLException;
@@ -21,8 +20,7 @@ public class NewGuestMenu  implements RegisterInterface{
         UserRepository userRepository = new UserRepository();
         try {
             userRepository.singUpUser(user);
-            GuestMenu guest = new GuestMenu();
-            guest.putLoginPassword();
+            new GuestMenu().putLoginPassword();
         } catch (SQLException e) {
             e.printStackTrace();
         }

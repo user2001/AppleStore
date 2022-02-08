@@ -2,14 +2,14 @@ package com.company.Menu;
 
 import java.util.Scanner;
 
-public class LoginMenu {
+public class LoginMenu implements Menu {
     Scanner scanner = new Scanner(System.in);
 
+    private String[] items = {"Guest-'1'", "NewGuest-'2'","Admin-'3'","Exit-'0'"};
+
+
     public void helloMenu() {
-        System.out.println("Guest-'1'");
-        System.out.println("NewGuest-'2'");
-        System.out.println("Admin-'3'");
-        System.out.println("Exit-'0'");
+       showItems(items);
     }
 
     public void choiceRole(){
@@ -19,16 +19,13 @@ public class LoginMenu {
             int chooseNumber = scanner.nextInt();
             switch (chooseNumber) {
                 case 1:
-                    GuestMenu user = new GuestMenu();
-                    user.putLoginPassword();
+                    new GuestMenu().putLoginPassword();
                     break;
                 case 2:
-                    NewGuestMenu newUser = new NewGuestMenu();
-                    newUser.putPersonalData();
+                    new NewGuestMenu().putPersonalData();
                     break;
                 case 3:
-                    AdminMenu adminMenu = new AdminMenu();
-                    adminMenu.putLoginPassword();
+                    new AdminMenu().putLoginPassword();
                     break;
                 case 0:
                     System.exit(0);
