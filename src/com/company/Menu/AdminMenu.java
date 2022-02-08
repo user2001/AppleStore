@@ -22,7 +22,7 @@ public class AdminMenu implements LoginInterface, MenuInterface {
         System.out.println("Users menu-'1'");  //ніби все
         System.out.println("Order menu-'2'"); //треба додати колонку confirm в таблицю
         System.out.println("Products menu-'3'"); // зробити
-        System.out.println("Exit-'0'");
+        System.out.println("Main menu-'0'");
     }
 
     public void choiceRole() {
@@ -41,7 +41,8 @@ public class AdminMenu implements LoginInterface, MenuInterface {
                     ProductsMenu();
                     break;
                 case 0:
-                    System.exit(0);
+                    LoginMenu loginMenu =new LoginMenu();
+                    loginMenu.choiceRole();
                 default:
                     System.out.println("Error, wrong answer");
                     helloMenu();
