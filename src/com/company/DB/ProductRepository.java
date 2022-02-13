@@ -1,6 +1,7 @@
 package com.company.DB;
 
 
+import com.company.DB.Dao.ProductDao;
 import com.company.Entity.ProductEntity;
 import com.company.Entity.UserEntity;
 
@@ -8,7 +9,7 @@ import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
 
-public class ProductRepository extends DBConnection implements DBDao {
+public class ProductRepository extends DBConnection implements ProductDao {
 
 
     public void add(ProductEntity product) {
@@ -48,14 +49,15 @@ public class ProductRepository extends DBConnection implements DBDao {
     }
 
 
-    public List<ProductEntity> getProductsInRange(int min, int max)throws SQLException {
+    public List<ProductEntity> getProductsInRange(int min, int max) {
         String select = "SELECT * FROM PRODUCT where PRICE between ? and ?";
+        List<ProductEntity> products = new ArrayList<>();
         try(Connection con = DriverManager.getConnection(URL, LOGIN, PASSWORD)){
             try(PreparedStatement pst = con.prepareStatement(select)){
                 pst.setInt(1,min);
                 pst.setInt(2,max);
                 try(ResultSet resSet = pst.executeQuery()){
-                    List<ProductEntity> products = new ArrayList<>();
+
                     while (resSet.next()){
                         ProductEntity product = new ProductEntity(
                                 resSet.getInt("ID"),
@@ -64,10 +66,13 @@ public class ProductRepository extends DBConnection implements DBDao {
                                 resSet.getInt("PRICE"));
                         products.add(product);
                     }
-                    return products;
+
                 }
             }
+        } catch (SQLException throwables) {
+            throwables.printStackTrace();
         }
+        return products;
     }
 
     public void updatePrice(int id, int price) {

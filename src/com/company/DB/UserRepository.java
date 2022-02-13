@@ -1,15 +1,16 @@
 package com.company.DB;
 
 
+import com.company.DB.Dao.UserDao;
 import com.company.Entity.UserEntity;
 
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
 
-public class UserRepository extends DBConnection implements DBDao {
+public class UserRepository extends DBConnection implements UserDao {
 
-    public void singUpUser(UserEntity user) throws SQLException {
+    public void singUpUser(UserEntity user){
         if (findUser(user.getLogin())) {
             System.out.println("Такий користувач вже існує");
             return;
@@ -28,7 +29,7 @@ public class UserRepository extends DBConnection implements DBDao {
         }
     }
 
-    public UserEntity getUser(String login, String password) throws SQLException {
+    public UserEntity getUser(String login, String password){
         String select = "SELECT * FROM User WHERE LOGIN=? and PASSWORD=?";
         boolean counter = false;
         UserEntity user = null;
@@ -45,12 +46,15 @@ public class UserRepository extends DBConnection implements DBDao {
                                 resSet.getString("MESSAGE"));
                     }
                 }
-                return user;
+
             }
+        } catch (SQLException throwables) {
+            throwables.printStackTrace();
         }
+        return user;
     }
 
-    public boolean findUser(String login) throws SQLException {
+    public boolean findUser(String login){
         String select = "SELECT * FROM USER WHERE LOGIN=?";
         boolean counter = false;
         try (Connection con = DriverManager.getConnection(URL, LOGIN, PASSWORD)) {
@@ -62,7 +66,10 @@ public class UserRepository extends DBConnection implements DBDao {
                     }
                 }
             }
-        }return counter;
+        } catch (SQLException throwables) {
+            throwables.printStackTrace();
+        }
+        return counter;
     }
 
 

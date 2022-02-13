@@ -1,6 +1,7 @@
 package com.company.Menu;
 
-import com.company.Dao.DBDao.UserRepository;
+
+import com.company.DB.UserRepository;
 import com.company.Entity.UserEntity;
 import com.company.RegisterInterface;
 
@@ -18,12 +19,8 @@ public class NewGuestMenu  implements RegisterInterface{
         String password = scanner.next();
         UserEntity user = new UserEntity(login, password, "Unblock", "");
         UserRepository userRepository = new UserRepository();
-        try {
-            userRepository.singUpUser(user);
-            new GuestMenu().putLoginPassword();
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
+        userRepository.singUpUser(user);
+        new GuestMenu().putLoginPassword();
     }
 
 }

@@ -1,15 +1,15 @@
 package com.company.DB;
 
 
+import com.company.DB.Dao.AdminDao;
 import com.company.Entity.AdminEntity;
 
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
 
-public class AdminRepository extends DBConnection implements DBDao {
+public class AdminRepository extends DBConnection implements AdminDao {
 
-    DBConnection dbConnection = new DBConnection();
     public List<AdminEntity> get() {
         String select = "SELECT  ID,NAME,SURNAME,LOGIN,PASSWORD FROM ADMIN";
         List<AdminEntity> admins = new ArrayList<>();
@@ -36,7 +36,7 @@ public class AdminRepository extends DBConnection implements DBDao {
         return admins;
     }
 
-    public AdminEntity getAdmin(String login, String password) throws SQLException {
+    public AdminEntity getAdmin(String login, String password)  {
         String select = "SELECT * FROM ADMIN WHERE LOGIN=? and PASSWORD=?";
         boolean counter = false;
         AdminEntity admin = null;
@@ -54,12 +54,15 @@ public class AdminRepository extends DBConnection implements DBDao {
 
                     }
                 }
-                return admin;
+
             }
+        } catch (SQLException throwables) {
+            throwables.printStackTrace();
         }
+        return admin;
     }
 
-    public boolean findAdmin(String login) throws SQLException {
+    public boolean findAdmin(String login){
         String select = "SELECT * FROM ADMIN WHERE LOGIN=?";
         boolean counter = false;
         try (Connection con = DriverManager.getConnection(URL, LOGIN, PASSWORD)) {
@@ -73,7 +76,10 @@ public class AdminRepository extends DBConnection implements DBDao {
                 }
 
             }
-        }return counter;
+        } catch (SQLException throwables) {
+            throwables.printStackTrace();
+        }
+        return counter;
     }
 
 }

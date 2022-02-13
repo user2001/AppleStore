@@ -1,9 +1,9 @@
 package com.company.Menu;
 
-import com.company.Dao.DBDao.AdminRepository;
-import com.company.Dao.DBDao.OrderRepository;
-import com.company.Dao.DBDao.ProductRepository;
-import com.company.Dao.DBDao.UserRepository;
+import com.company.DB.AdminRepository;
+import com.company.DB.OrderRepository;
+import com.company.DB.ProductRepository;
+import com.company.DB.UserRepository;
 import com.company.Entity.AdminEntity;
 import com.company.Entity.OrderEntity;
 import com.company.Entity.ProductEntity;
@@ -24,14 +24,14 @@ public class GuestMenu implements LoginInterface, Menu {
     List<ProductEntity> cart = new ArrayList<>();
     UserEntity user;
 
-    private String[] items = {"Products menu-'1'", "Search products in range-'2'","My orders menu-'3'","Корзина-'4'","Main menu-'0'"};
+    private String[] items = {"Products menu-'1'", "Search products in range-'2'","My orders menu-'3'","My basket-'4'","Main menu-'0'"};
 
 
     public void helloMenu() {
        showItems(items);
     }
 
-    public void choiceRole() throws SQLException {
+    public void choiceRole(){
         while (true) {
             helloMenu();
             int chooseNumber = scanner.nextInt();
@@ -46,8 +46,7 @@ public class GuestMenu implements LoginInterface, Menu {
                     chooseProduct();
                     break;
                 case 4:
-                    myCart();
-                    // id замовлень. меню адміна. переглянутию підтвердити. написати
+                    myBasket();
                     break;
                 case 0:
                     new LoginMenu().choiceRole();
@@ -86,12 +85,10 @@ public class GuestMenu implements LoginInterface, Menu {
         ProductRepository productRepository = new ProductRepository();
         List<ProductEntity> productList;
         productList = productRepository.get();
-        for (ProductEntity p:productList) {
-            System.out.println(p);
-        }
+        productList.forEach(System.out::println);
     }
 
-    public void showProductsInRange() throws SQLException {
+    public void showProductsInRange(){
         System.out.println("Введіть мінімальну ціну");
         int min = scanner.nextInt();
         System.out.println("Введіть максимальну ціну");
@@ -100,9 +97,7 @@ public class GuestMenu implements LoginInterface, Menu {
         ProductRepository productRepository = new ProductRepository();
         List<ProductEntity> productList;
         productList = productRepository.getProductsInRange(min,max);
-        for (ProductEntity p:productList) {
-            System.out.println(p);
-        }
+        productList.forEach(System.out::println);
     }
 
     public void chooseProduct() {
@@ -110,21 +105,26 @@ public class GuestMenu implements LoginInterface, Menu {
         List<ProductEntity> productList;
         productList = productRepository.get();
         Comparator<ProductEntity> comparator = Comparator.comparing(ProductEntity::getId);
+
         if (!choosenProducts.isEmpty()) {
-            productList = productList.stream().filter(i1 -> choosenProducts.stream().allMatch(i2 -> i1.getId() != i2.getId())).collect(Collectors.toList());
+            productList = productList.stream()
+                    .filter(i1 -> choosenProducts.stream()
+                            .allMatch(i2 -> i1.getId() != i2.getId()))
+                    .collect(Collectors.toList());
         }
         if (productList.isEmpty()) {
             System.out.println("Товари закінчилися");
             return;
         }
-        for (ProductEntity p:productList) {
-            System.out.println(p);
-        }
+        productList.forEach(System.out::println);
         System.out.println("Вкажіть id товару");
         int needProduct = scanner.nextInt();
         choosenProduct = productList.stream()
-                .filter(product -> product.getId() == needProduct).findFirst().orElse(null);
+                .filter(product -> product.getId() == needProduct)
+                .findFirst()
+                .orElse(null);
         System.out.println(choosenProduct);
+
         if (!choosenProduct.equals(null)) {
             choosenProducts.add(choosenProduct);
             System.out.println("Ви додали до вашої корзини: " + choosenProduct);
@@ -137,35 +137,31 @@ public class GuestMenu implements LoginInterface, Menu {
 
     }
 
-    public void myCart() {
+    public void myBasket() {
         System.out.println("Ваше замовлення" + cart);
         System.out.println("Підтвердити замовлення? 1 - так, 0 - ні ");
         int check;
         check = scanner.nextInt();
+
         if (check == 0) {
             return;
         }
         OrderRepository orderRepository = new OrderRepository();
         String productsId = "";
-        int fullPrice = 0;
         for (ProductEntity p : choosenProducts) {
             productsId += p.getId() + ", ";
         }
         productsId = productsId.strip();
         productsId = productsId.substring(0, productsId.length() - 1);
-        for (ProductEntity p : choosenProducts) {
-            fullPrice += p.getPrice();
-        }
+
+        var fullPrice = (Integer) choosenProducts.stream()
+                .map(ProductEntity::getPrice)
+                .mapToInt(Integer::intValue)
+                .sum();
+
         orderRepository.makeOrder(new OrderEntity(user.getId(), productsId, fullPrice, "Uncomfirmed"));
         System.out.println("Замовлення додано");
 
     }
 
-    public void showAdmins() {
-        AdminRepository adminRepository = new AdminRepository();
-        List<AdminEntity> adminList;
-        adminList = adminRepository.get();
-        System.out.println(adminList);
-    }
-    /// треба перевірку чи є такий юзер в базі даних, якщо нема то опція: повторити спробу або зареєструватись
 }
